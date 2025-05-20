@@ -1,0 +1,389 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "UDPPlugin",
+    "printedName": "UDPPlugin",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "UDPPlugin"
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "UDPPlugin"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "UDPBroadcaster",
+        "printedName": "UDPBroadcaster",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "shared",
+            "printedName": "shared",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "UDPBroadcaster",
+                "printedName": "UDPPlugin.UDPBroadcaster",
+                "usr": "c:@M@UDPPlugin@objc(cs)UDPBroadcaster"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@UDPPlugin@objc(cs)UDPBroadcaster(cpy)shared",
+            "mangledName": "$s9UDPPlugin14UDPBroadcasterC6sharedACvpZ",
+            "moduleName": "UDPPlugin",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "ObjC"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UDPBroadcaster",
+                    "printedName": "UDPPlugin.UDPBroadcaster",
+                    "usr": "c:@M@UDPPlugin@objc(cs)UDPBroadcaster"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@UDPPlugin@objc(cs)UDPBroadcaster(cm)shared",
+                "mangledName": "$s9UDPPlugin14UDPBroadcasterC6sharedACvgZ",
+                "moduleName": "UDPPlugin",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "getNextBufferedMessage",
+            "printedName": "getNextBufferedMessage()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.String?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@UDPPlugin@objc(cs)UDPBroadcaster(im)getNextBufferedMessage",
+            "mangledName": "$s9UDPPlugin14UDPBroadcasterC22getNextBufferedMessageSSSgyF",
+            "moduleName": "UDPPlugin",
+            "declAttributes": [
+              "AccessControl",
+              "ObjC"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "startBroadcasting",
+            "printedName": "startBroadcasting(port:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UInt16",
+                "printedName": "Swift.UInt16",
+                "usr": "s:s6UInt16V"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@UDPPlugin@objc(cs)UDPBroadcaster(im)startBroadcastingWithPort:",
+            "mangledName": "$s9UDPPlugin14UDPBroadcasterC17startBroadcasting4portys6UInt16V_tF",
+            "moduleName": "UDPPlugin",
+            "objc_name": "startBroadcastingWithPort:",
+            "declAttributes": [
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "send",
+            "printedName": "send(message:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@UDPPlugin@objc(cs)UDPBroadcaster(im)sendWithMessage:",
+            "mangledName": "$s9UDPPlugin14UDPBroadcasterC4send7messageySS_tF",
+            "moduleName": "UDPPlugin",
+            "objc_name": "sendWithMessage:",
+            "declAttributes": [
+              "AccessControl",
+              "ObjC"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "startReceiving",
+            "printedName": "startReceiving(port:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UInt16",
+                "printedName": "Swift.UInt16",
+                "usr": "s:s6UInt16V"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@UDPPlugin@objc(cs)UDPBroadcaster(im)startReceivingWithPort:",
+            "mangledName": "$s9UDPPlugin14UDPBroadcasterC14startReceiving4portys6UInt16V_tF",
+            "moduleName": "UDPPlugin",
+            "objc_name": "startReceivingWithPort:",
+            "declAttributes": [
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "stopBroadcasting",
+            "printedName": "stopBroadcasting()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@UDPPlugin@objc(cs)UDPBroadcaster(im)stopBroadcasting",
+            "mangledName": "$s9UDPPlugin14UDPBroadcasterC16stopBroadcastingyyF",
+            "moduleName": "UDPPlugin",
+            "declAttributes": [
+              "AccessControl",
+              "ObjC"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getIPAddressForUnity",
+            "printedName": "getIPAddressForUnity()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@UDPPlugin@objc(cs)UDPBroadcaster(im)getIPAddressForUnity",
+            "mangledName": "$s9UDPPlugin14UDPBroadcasterC20getIPAddressForUnitySSyF",
+            "moduleName": "UDPPlugin",
+            "declAttributes": [
+              "AccessControl",
+              "ObjC",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@UDPPlugin@objc(cs)UDPBroadcaster",
+        "mangledName": "$s9UDPPlugin14UDPBroadcasterC",
+        "moduleName": "UDPPlugin",
+        "declAttributes": [
+          "AccessControl",
+          "ObjCMembers",
+          "ObjC"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "hasMissingDesignatedInitializers": true,
+        "inheritsConvenienceInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/djima\/Desktop\/iOS\/UDPPlugin\/UDPPlugin\/UDPBroadcaster.swift",
+      "kind": "IntegerLiteral",
+      "offset": 199,
+      "length": 2,
+      "value": "-1"
+    },
+    {
+      "filePath": "\/Users\/djima\/Desktop\/iOS\/UDPPlugin\/UDPPlugin\/UDPBroadcaster.swift",
+      "kind": "IntegerLiteral",
+      "offset": 243,
+      "length": 2,
+      "value": "-1"
+    },
+    {
+      "filePath": "\/Users\/djima\/Desktop\/iOS\/UDPPlugin\/UDPPlugin\/UDPBroadcaster.swift",
+      "kind": "StringLiteral",
+      "offset": 289,
+      "length": 17,
+      "value": "\"255.255.255.255\""
+    },
+    {
+      "filePath": "\/Users\/djima\/Desktop\/iOS\/UDPPlugin\/UDPPlugin\/UDPBroadcaster.swift",
+      "kind": "IntegerLiteral",
+      "offset": 338,
+      "length": 4,
+      "value": "5000"
+    },
+    {
+      "filePath": "\/Users\/djima\/Desktop\/iOS\/UDPPlugin\/UDPPlugin\/UDPBroadcaster.swift",
+      "kind": "Array",
+      "offset": 412,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/djima\/Desktop\/iOS\/UDPPlugin\/UDPPlugin\/UDPBroadcaster.swift",
+      "kind": "IntegerLiteral",
+      "offset": 445,
+      "length": 3,
+      "value": "100"
+    },
+    {
+      "filePath": "\/Users\/djima\/Desktop\/iOS\/UDPPlugin\/UDPPlugin\/UDPBroadcaster.swift",
+      "kind": "StringLiteral",
+      "offset": 520,
+      "length": 6,
+      "value": "\"INFO\""
+    },
+    {
+      "filePath": "\/Users\/djima\/Desktop\/iOS\/UDPPlugin\/UDPPlugin\/UDPBroadcaster.swift",
+      "kind": "StringLiteral",
+      "offset": 547,
+      "length": 6,
+      "value": "\"WARN\""
+    },
+    {
+      "filePath": "\/Users\/djima\/Desktop\/iOS\/UDPPlugin\/UDPPlugin\/UDPBroadcaster.swift",
+      "kind": "StringLiteral",
+      "offset": 575,
+      "length": 7,
+      "value": "\"ERROR\""
+    }
+  ]
+}
