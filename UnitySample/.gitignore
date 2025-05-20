@@ -77,3 +77,6 @@ crashlytics-build.properties
 .idea/*
 
 .DS_Store
+
+/Assets/NotoSansJP-Regular SDF.asset
+/Assets/NotoSansJP-Regular SDF.asset.meta
