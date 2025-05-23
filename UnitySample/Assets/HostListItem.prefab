@@ -188,8 +188,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u30DB\u30B9\u30C81"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c432bfebb9fc64182a4b2815c31d0ff0, type: 2}
-  m_sharedMaterial: {fileID: -7786892333198751292, guid: c432bfebb9fc64182a4b2815c31d0ff0, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 132420c5edb3d2247b38fb820632e0f6, type: 2}
+  m_sharedMaterial: {fileID: -7786892333198751292, guid: 132420c5edb3d2247b38fb820632e0f6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

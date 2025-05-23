@@ -5,8 +5,8 @@ using UnityEngine;
 [Serializable]
 public class UDPMessage
 {
-    public string timestamp;
     public string payload;
+    public string timestamp;
 }
 
 public class UdpDiscovery

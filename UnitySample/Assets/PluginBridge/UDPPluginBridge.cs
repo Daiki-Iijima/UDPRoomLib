@@ -197,21 +197,57 @@ public static class UDPPluginBridge
     {
         if (sender == null)
         {
-            // Debug.LogWarning("[UDPPluginBridge] 送信未初期化");
+            Debug.LogWarning("[UDPPluginBridge] 送信未初期化");
             return;
         }
 
         try
         {
-            byte[] data = Encoding.UTF8.GetBytes(message);
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Broadcast, defaultPort);
+            UDPMessage msg = new UDPMessage();
+            msg.timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
+            msg.payload = message;
+            var json = JsonUtility.ToJson(msg);
+            byte[] data = Encoding.UTF8.GetBytes(json);
+            IPEndPoint endPoint = new IPEndPoint(GetBroadcastAddress(), defaultPort);
             sender.Send(data, data.Length, endPoint);
-            // Debug.Log($"📤 C# UDP送信: {message}");
+            Debug.Log($"C# UDP送信: {json}");
         }
         catch (Exception ex)
         {
-            // Debug.LogError($"[UDPPluginBridge] UDP送信失敗: {ex.Message}");
+            Debug.LogError($"[UDPPluginBridge] UDP送信失敗: {ex.Message}");
         }
     }
+    
+/// <summary>
+/// サブネットのブロードキャストアドレスを計算
+/// 例: IP 192.168.0.12, Mask 255.255.255.0 → 192.168.0.255
+/// </summary>
+private static IPAddress GetBroadcastAddress()
+{
+    foreach (var ni in System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces())
+    {
+        if (ni.OperationalStatus != System.Net.NetworkInformation.OperationalStatus.Up)
+            continue;
+
+        foreach (var ua in ni.GetIPProperties().UnicastAddresses)
+        {
+            if (ua.Address.AddressFamily == AddressFamily.InterNetwork)
+            {
+                byte[] ip = ua.Address.GetAddressBytes();
+                byte[] mask = ua.IPv4Mask?.GetAddressBytes();
+                if (mask == null) continue;
+
+                byte[] broadcast = new byte[4];
+                for (int i = 0; i < 4; i++)
+                    broadcast[i] = (byte)(ip[i] | (mask[i] ^ 255));
+
+                return new IPAddress(broadcast);
+            }
+        }
+    }
+
+    // Fallback to 255.255.255.255
+    return IPAddress.Broadcast;
+}
 #endif
 }
