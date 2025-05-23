@@ -9,7 +9,7 @@ public class WsRoomClient
 
     public event Action OnOpen, OnClose;
     public event Action<string> OnMessage;
-    readonly UdpTestUI.DeviceInfo myInfo = new()
+    readonly DeviceInfo myInfo = new()
     {
         id     = SystemInfo.deviceUniqueIdentifier,
         device = Application.platform.ToString()
