@@ -1,26 +1,25 @@
 using System;
 using UnityEngine;
 
+[Serializable]
+public class DeviceInfo { public string id; public string device; }
+
 public class NetworkHub : MonoBehaviour
 {
-    [Header("Ports")]
+    [Header("使用するポート")]
     public int udpPort = 5000;
     public int wsPort = 8765;
 
-    public bool AutoJoinFirst = true;
+    public bool autoJoinFirst;
 
-    /* Public events */
-    public event Action<UdpTestUI.DeviceInfo> OnJoin, OnLeave;
-    public event Action<UdpTestUI.DeviceInfo, string> OnMessage;
+    public event Action<DeviceInfo> OnJoin, OnLeave;
+    public event Action<DeviceInfo, string> OnMessage;
+    public event Action<string> OnServerDiscovered;
 
-    /* internals */
     UdpDiscovery udp;
     WsRoomServer server;
     WsRoomClient client;
 
-    public event Action<string> OnServerDiscovered;
-
-    /* ----------------- Public API ----------------- */
     public void StartServer()
     {
         Stop(); // reset
@@ -32,7 +31,7 @@ public class NetworkHub : MonoBehaviour
         server.OnMessage += (i, m) => OnMessage?.Invoke(i, m);
 
         udp = new UdpDiscovery(udpPort);
-        udp.StartBroadcasting(url, 1f);
+        udp.StartBroadcasting(url);
         Debug.Log($"[Hub] Server started @ {url}");
     }
 
@@ -81,7 +80,7 @@ public class NetworkHub : MonoBehaviour
 
     public void Send(string msg)
     {
-        if (client != null && client.IsConnected)
+        if (client is { IsConnected: true })
         {
             client.Send(msg);
         }

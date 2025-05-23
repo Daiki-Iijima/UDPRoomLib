@@ -7,11 +7,11 @@ using UnityEngine;
 public class WsRoomServer
 {
     private readonly WebSocketServer wss;
-    private readonly Dictionary<string, UdpTestUI.DeviceInfo> devices = new();
+    private readonly Dictionary<string, DeviceInfo> devices = new();
 
-    public event Action<UdpTestUI.DeviceInfo> OnJoin;
-    public event Action<UdpTestUI.DeviceInfo> OnLeave;
-    public event Action<UdpTestUI.DeviceInfo, string> OnMessage;
+    public event Action<DeviceInfo> OnJoin;
+    public event Action<DeviceInfo> OnLeave;
+    public event Action<DeviceInfo, string> OnMessage;
 
     public WsRoomServer(int port = 8765)
     {
@@ -25,7 +25,7 @@ public class WsRoomServer
 
     public void Stop() => wss?.Stop();
 
-    public IEnumerable<UdpTestUI.DeviceInfo> Clients => devices.Values;
+    public IEnumerable<DeviceInfo> Clients => devices.Values;
 
     public bool SendTo(string deviceId, string msg)
     {
@@ -48,7 +48,7 @@ public class WsRoomServer
         }
     }
 
-    private void HandleIdentified(UdpTestUI.DeviceInfo info, string sessionId)
+    private void HandleIdentified(DeviceInfo info, string sessionId)
     {
         devices[sessionId] = info;
         OnJoin?.Invoke(info);
@@ -56,9 +56,8 @@ public class WsRoomServer
 
     private void HandleClosed(string sessionId)
     {
-        if (devices.TryGetValue(sessionId, out var info))
+        if (devices.Remove(sessionId, out var info))
         {
-            devices.Remove(sessionId);
             OnLeave?.Invoke(info);
         }
     }
@@ -73,7 +72,7 @@ public class WsRoomServer
 
     class RoomBehavior : WebSocketBehavior
     {
-        public static Action<UdpTestUI.DeviceInfo, string> OnIdentified;
+        public static Action<DeviceInfo, string> OnIdentified;
         public static Action<string> OnClosed;
         public static Action<string, string> OnTextMessage;
 
@@ -83,7 +82,7 @@ public class WsRoomServer
             {
                 if (e.Data.StartsWith("{"))
                 {
-                    var info = JsonUtility.FromJson<UdpTestUI.DeviceInfo>(e.Data);
+                    var info = JsonUtility.FromJson<DeviceInfo>(e.Data);
                     OnIdentified?.Invoke(info, ID);
                 }
                 else

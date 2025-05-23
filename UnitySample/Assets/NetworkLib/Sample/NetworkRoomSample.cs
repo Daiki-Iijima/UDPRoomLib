@@ -22,7 +22,7 @@ public class NetworkRoomSample : MonoBehaviour
 
     [SerializeField] private NetworkHub hub;
 
-    private bool isHosting = false;
+    private bool isHosting;
 
     private readonly HashSet<string> discoveredHosts = new();
     private readonly Dictionary<string, float> hostLastSeen = new();

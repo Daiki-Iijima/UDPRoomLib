@@ -9,11 +9,11 @@ using UnityEngine;
 
 public static class UDPPluginBridge
 {
-    private static readonly ConcurrentQueue<string> messageQueue = new();
-    private static UdpClient receiver;
-    private static UdpClient sender;
-    private static CancellationTokenSource receiveCts;
-    private static int defaultPort = 5000;
+    private static readonly ConcurrentQueue<string> MessageQueue = new();
+    private static UdpClient _receiver;
+    private static UdpClient _sender;
+    private static CancellationTokenSource _receiveCts;
+    private static int _defaultPort = 5000;
 
 #if UNITY_IOS && !UNITY_EDITOR
     [DllImport("__Internal")] private static extern void StartUDPBroadcastWithPort(int port);
@@ -26,7 +26,7 @@ public static class UDPPluginBridge
 
     public static void StartSender(int port = 5000)
     {
-        defaultPort = port;
+        _defaultPort = port;
 #if UNITY_IOS && !UNITY_EDITOR
         StartUDPBroadcastWithPort(port);
 #else
@@ -37,7 +37,7 @@ public static class UDPPluginBridge
 
     public static void StartReceiver(int port = 5000)
     {
-        defaultPort = port;
+        _defaultPort = port;
 #if UNITY_IOS && !UNITY_EDITOR
         StartUDPReceivingWithPort(port);
 #else
@@ -79,7 +79,7 @@ public static class UDPPluginBridge
         }
         return null;
 #else
-        if (messageQueue.TryDequeue(out var msg))
+        if (MessageQueue.TryDequeue(out var msg))
         {
             return msg;
         }
@@ -91,31 +91,31 @@ public static class UDPPluginBridge
 #if !UNITY_IOS || UNITY_EDITOR
     private static void StartCSharpReceiver(int port)
     {
-        receiveCts = new CancellationTokenSource();
-        receiver = new UdpClient(port);
-        receiver.EnableBroadcast = true;
+        _receiveCts = new CancellationTokenSource();
+        _receiver = new UdpClient(port);
+        _receiver.EnableBroadcast = true;
 
-        var token = receiveCts.Token;
+        var token = _receiveCts.Token;
         ThreadPool.QueueUserWorkItem(_ =>
         {
             try
             {
                 while (!token.IsCancellationRequested)
                 {
-                    if (receiver.Available > 0)
+                    if (_receiver.Available > 0)
                     {
-                        IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
-                        byte[] data = receiver.Receive(ref remoteEP);
+                        IPEndPoint remoteEp = new IPEndPoint(IPAddress.Any, 0);
+                        byte[] data = _receiver.Receive(ref remoteEp);
                         string msg = Encoding.UTF8.GetString(data);
-                        messageQueue.Enqueue(msg);
-                        // Debug.Log($"📥 C# UDP受信: {msg}");
+                        MessageQueue.Enqueue(msg);
+                        Debug.Log($"C# UDP受信: {msg}");
                     }
                     Thread.Sleep(10);
                 }
             }
             catch (Exception ex)
             {
-                // Debug.LogError($"[UDPPluginBridge] UDP受信エラー: {ex.Message}");
+                Debug.LogError($"[UDPPluginBridge] UDP受信エラー: {ex.Message}");
             }
         });
     }
@@ -124,12 +124,12 @@ public static class UDPPluginBridge
     {
         try
         {
-            receiveCts?.Cancel();
-            receiver?.Close();
+            _receiveCts?.Cancel();
+            _receiver?.Close();
         }
         catch (Exception ex)
         {
-            // Debug.LogWarning($"[UDPPluginBridge] StopReceiver error: {ex.Message}");
+            Debug.LogWarning($"[UDPPluginBridge] StopReceiver error: {ex.Message}");
         }
     }
 #endif
@@ -142,11 +142,11 @@ public static class UDPPluginBridge
         return Marshal.PtrToStringUTF8(ptr);
     return null;
 #else
-        var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
+        var host = Dns.GetHostEntry(Dns.GetHostName());
 
         foreach (var ip in host.AddressList)
         {
-            if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
             {
                 string ipStr = ip.ToString();
                 if (ipStr.StartsWith("192.")) // 優先的に使いたいIP
@@ -157,7 +157,7 @@ public static class UDPPluginBridge
         // 192.が見つからなかったら10.xでも返す
         foreach (var ip in host.AddressList)
         {
-            if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
                 return ip.ToString();
         }
 
@@ -171,13 +171,13 @@ public static class UDPPluginBridge
     {
         try
         {
-            sender = new UdpClient();
-            sender.EnableBroadcast = true;
-            // Debug.Log("[UDPPluginBridge] C# UDP送信初期化完了");
+            _sender = new UdpClient();
+            _sender.EnableBroadcast = true;
+            Debug.Log("[UDPPluginBridge] C# UDP送信初期化完了");
         }
         catch (Exception ex)
         {
-            // Debug.LogError($"[UDPPluginBridge] UDP送信初期化エラー: {ex.Message}");
+            Debug.LogError($"[UDPPluginBridge] UDP送信初期化エラー: {ex.Message}");
         }
     }
 
@@ -185,17 +185,17 @@ public static class UDPPluginBridge
     {
         try
         {
-            sender?.Close();
+            _sender?.Close();
         }
         catch (Exception ex)
         {
-            // Debug.LogWarning($"[UDPPluginBridge] StopSender error: {ex.Message}");
+            Debug.LogWarning($"[UDPPluginBridge] StopSender error: {ex.Message}");
         }
     }
 
     private static void SendCSharpUDP(string message)
     {
-        if (sender == null)
+        if (_sender == null)
         {
             Debug.LogWarning("[UDPPluginBridge] 送信未初期化");
             return;
@@ -208,8 +208,8 @@ public static class UDPPluginBridge
             msg.payload = message;
             var json = JsonUtility.ToJson(msg);
             byte[] data = Encoding.UTF8.GetBytes(json);
-            IPEndPoint endPoint = new IPEndPoint(GetBroadcastAddress(), defaultPort);
-            sender.Send(data, data.Length, endPoint);
+            IPEndPoint endPoint = new IPEndPoint(GetBroadcastAddress(), _defaultPort);
+            _sender.Send(data, data.Length, endPoint);
             Debug.Log($"C# UDP送信: {json}");
         }
         catch (Exception ex)

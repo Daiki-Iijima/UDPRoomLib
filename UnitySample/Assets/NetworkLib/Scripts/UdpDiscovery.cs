@@ -12,10 +12,10 @@ public class UDPMessage
 public class UdpDiscovery
 {
     private readonly int port;
-    private bool isServer = false;
-    private bool running = false;
+    private bool isServer;
+    private bool running;
     private float interval = 1f;
-    private float timer = 0f;
+    private float timer;
     private readonly ConcurrentQueue<string> rxQueue = new();
 
     public event Action<string> OnDiscovered;
@@ -28,7 +28,7 @@ public class UdpDiscovery
     public void StartBroadcasting(string wsUrl, float intervalSec = 1f)
     {
         if (running) return;
-        this.interval = intervalSec;
+        interval = intervalSec;
         isServer = true;
         running = true;
         UDPPluginBridge.StartSender(port);
@@ -51,11 +51,16 @@ public class UdpDiscovery
         UDPPluginBridge.Stop();
     }
 
-    // 毎フレーム呼ぶこと（MonoBehaviourのUpdate内など）
+    /// <summary>
+    /// MonoBehaviourのUpdateから呼ばれることを想定している
+    /// </summary>
+    /// <param name="deltaTime"></param>
+    /// <param name="wsUrlIfServer"></param>
     public void Update(float deltaTime, string wsUrlIfServer = null)
     {
         if (!running) return;
 
+        //  サーバーの場合は定期的に自分のwsのurlをブロードキャスト
         if (isServer && !string.IsNullOrEmpty(wsUrlIfServer))
         {
             timer += deltaTime;
@@ -66,8 +71,8 @@ public class UdpDiscovery
             }
         }
 
-        string msg;
-        while ((msg = UDPPluginBridge.PollBufferedMessage()) != null)
+        //  受信したメッセージのポーリング
+        while (UDPPluginBridge.PollBufferedMessage() is { } msg)
         {
             try
             {
